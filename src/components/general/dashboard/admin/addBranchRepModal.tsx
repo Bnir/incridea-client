@@ -1,13 +1,10 @@
-import { type QueryResult, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { type FC, useState, useEffect, useRef, useCallback } from "react";
 
 import Badge from "~/components/badge";
 import SearchBox from "~/components/searchbox";
 import Spinner from "~/components/spinner";
-import {
-  type BranchesQueryVariables,
-  type BranchesQuery,
-} from "~/generated/generated";
+import { type BranchesQuery } from "~/generated/generated";
 import { SearchUsersDocument } from "~/generated/generated";
 
 import AddBranchRepButton from "./addBranchRepButton";
@@ -16,12 +13,7 @@ import RemoveBranchRepButton from "./removeBranchRepButton";
 const AddBranchRep: FC<{
   branchId: string;
   branchName: string;
-  branchReps: Extract<
-    NonNullable<
-      QueryResult<BranchesQuery, BranchesQueryVariables>["data"]
-    >["getBranches"],
-    { __typename: "QueryGetBranchesSuccess" }
-  >["data"][number]["branchReps"];
+  branchReps: BranchesQuery["getBranches"][0]["branchReps"];
 }> = ({ branchId, branchName, branchReps }) => {
   // Search Users Query
   // Currently searched user

@@ -16,17 +16,7 @@ import RemoveOrganizerButton from "./removeOrganizerButton";
 
 const AddOrganizerModal: FC<{
   eventId: string;
-  organizers: Extract<
-    NonNullable<
-      QueryResult<
-        EventsByBranchRepQuery,
-        EventsByBranchRepQueryVariables
-      >["data"]
-    >["eventsByBranchRep"],
-    {
-      __typename: "QueryEventsByBranchRepSuccess";
-    }
-  >["data"][0]["organizers"];
+  organizers: EventsByBranchRepQuery["eventsByBranchRep"][0]["organizers"];
   eventsRefetch: QueryResult<
     EventsByBranchRepQuery,
     EventsByBranchRepQueryVariables

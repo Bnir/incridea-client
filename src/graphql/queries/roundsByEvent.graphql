@@ -1,17 +1,8 @@
 query RoundsByEvent($eventId: ID!) {
   roundsByEvent(eventId: $eventId) {
-    ... on Error {
-      __typename
-      message
-    }
-    ... on QueryRoundsByEventSuccess {
-      __typename
-      data {
-        completed
-        date
-        eventId
-        roundNo
-      }
-    }
+    completed
+    date
+    eventId
+    roundNo
   }
 }

@@ -7,7 +7,7 @@ export const particlesConfig = {
   detectRetina: true,
   fpsLimit: 120,
   interactivity: {
-    detectsOn: "window" as const,
+    detectsOn: "window",
     events: {
       onClick: {
         enable: true,
@@ -93,7 +93,7 @@ export const particlesConfig = {
       },
       enable: false,
       maxSpeed: 50,
-      mode: "bounce" as const,
+      mode: "bounce",
       overlap: {
         enable: true,
         retries: 0,
@@ -147,12 +147,12 @@ export const particlesConfig = {
       center: {
         x: 50,
         y: 50,
-        mode: "percent" as const,
+        mode: "percent",
         radius: 0,
       },
       decay: 0,
       distance: {},
-      direction: "none" as const,
+      direction: "none",
       drift: 0,
       enable: true,
       gravity: {
@@ -170,11 +170,11 @@ export const particlesConfig = {
         options: {},
       },
       outModes: {
-        default: "bounce" as const,
-        bottom: "out" as const,
-        left: "out" as const,
-        right: "out" as const,
-        top: "out" as const,
+        default: "bounce",
+        bottom: "out",
+        left: "out",
+        right: "out",
+        top: "out",
       },
       random: true,
       speed: 5,
@@ -185,7 +185,10 @@ export const particlesConfig = {
         width: 1920,
         height: 1080,
       },
-      limit: 0,
+      limit: {
+        mode: "delete",
+        value: 0,
+      },
       value: 100,
     },
     opacity: {
@@ -197,9 +200,9 @@ export const particlesConfig = {
         decay: 0,
         delay: 0,
         sync: false,
-        mode: "auto" as const,
-        startValue: "random" as const,
-        destroy: "none" as const,
+        mode: "auto",
+        startValue: "random",
+        destroy: "none",
       },
     },
     shadow: {
@@ -228,9 +231,9 @@ export const particlesConfig = {
         decay: 0,
         delay: 0,
         sync: false,
-        mode: "auto" as const,
-        startValue: "random" as const,
-        destroy: "none" as const,
+        mode: "auto",
+        startValue: "random",
+        destroy: "none",
       },
     },
     stroke: {
@@ -238,7 +241,7 @@ export const particlesConfig = {
     },
     destroy: {
       bounds: {},
-      mode: "none" as const,
+      mode: "none",
       split: {
         count: 1,
         factor: {
@@ -396,7 +399,7 @@ export const particlesConfig = {
     },
     startCount: 0,
     size: {
-      mode: "percent" as const,
+      mode: "percent",
       height: 0,
       width: 0,
     },
@@ -407,7 +410,7 @@ export const particlesConfig = {
       move: {
         speed: 10,
         outModes: {
-          default: "none" as const,
+          default: "none",
           right: "destroy",
         },
         straight: true,

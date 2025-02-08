@@ -13,17 +13,11 @@ const RoundsDone: FC<{
     },
   });
 
-  const total =
-    data?.roundsByEvent.__typename === "QueryRoundsByEventSuccess"
-      ? data.roundsByEvent.data.length
-      : 0;
+  const total = data?.roundsByEvent.length;
   let done = 0;
 
-  if (
-    !loading &&
-    data?.roundsByEvent.__typename === "QueryRoundsByEventSuccess"
-  )
-    data.roundsByEvent.data.map((round) => {
+  if (!loading)
+    data?.roundsByEvent.map((round) => {
       //checks if the rounds are completed or not
       if (round.completed) done++;
     });

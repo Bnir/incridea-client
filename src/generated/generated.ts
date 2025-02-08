@@ -343,7 +343,6 @@ export type Mutation = {
   updateQuiz: MutationUpdateQuizResult;
   updateQuizStatus: MutationUpdateQuizStatusResult;
   updateStatus: MutationUpdateStatusResult;
-  updateStoneVisibilities: MutationUpdateStoneVisibilitiesResult;
   useReferralCode: MutationUseReferralCodeResult;
   verifyEmail: MutationVerifyEmailResult;
 };
@@ -687,10 +686,6 @@ export type MutationUpdateStatusArgs = {
   hotelId: Scalars["String"]["input"];
   room: Scalars["String"]["input"];
   status: Scalars["String"]["input"];
-};
-
-export type MutationUpdateStoneVisibilitiesArgs = {
-  stoneVisibilities: Scalars["String"]["input"];
 };
 
 export type MutationUseReferralCodeArgs = {
@@ -1208,15 +1203,6 @@ export type MutationUpdateStatusSuccess = {
   data: UserInHotel;
 };
 
-export type MutationUpdateStoneVisibilitiesResult =
-  | Error
-  | MutationUpdateStoneVisibilitiesSuccess;
-
-export type MutationUpdateStoneVisibilitiesSuccess = {
-  __typename?: "MutationUpdateStoneVisibilitiesSuccess";
-  data: User;
-};
-
 export type MutationUseReferralCodeResult =
   | Error
   | MutationUseReferralCodeSuccess;
@@ -1320,23 +1306,23 @@ export type Query = {
   accommodationRequestsByUserId: Array<UserInHotel>;
   allWinners: QueryAllWinnersResult;
   attemptQuiz: QueryAttemptQuizResult;
-  colleges: QueryCollegesResult;
+  colleges: Array<College>;
   completedEvents: QueryCompletedEventsResult;
   eventById: Event;
   eventByOrganizer: Array<Event>;
   events: QueryEventsConnection;
-  eventsByBranchRep: QueryEventsByBranchRepResult;
-  getAllHotels: QueryGetAllHotelsResult;
+  eventsByBranchRep: Array<Event>;
+  getAllHotels: Array<Hotel>;
   getAllQuizSubmissions: QueryGetAllQuizSubmissionsResult;
   getAllSubmissions: QueryGetAllSubmissionsResult;
   getAllquestions: QueryGetAllquestionsResult;
   getAvatars: Array<Avatar>;
-  getBranch: QueryGetBranchResult;
-  getBranches: QueryGetBranchesResult;
+  getBranch: Branch;
+  getBranches: Array<Branch>;
   getCards: QueryGetCardsResult;
   getChampionshipLeaderboard: QueryGetChampionshipLeaderboardResult;
   getComment: QueryGetCommentResult;
-  getEventStatus: QueryGetEventStatusResult;
+  getEventStatus: Array<EventStatus>;
   getLevelXp: QueryGetLevelXpResult;
   getProniteRegistrations: ProniteRegistrationCounts;
   getQuizByEventRound: QueryGetQuizByEventRoundResult;
@@ -1346,8 +1332,7 @@ export type Query = {
   getRoundStatus: QueryGetRoundStatusResult;
   getScore: QueryGetScoreResult;
   getScoreSheetJuryView: QueryGetScoreSheetJuryViewResult;
-  getStoneVisibilities: QueryGetStoneVisibilitiesResult;
-  getSubmissionByUser: QueryGetSubmissionByUserResult;
+  getSubmissionByUser: Array<AllSubmissions>;
   getTotalRegistrations: EventRegistrationsCount;
   getTotalScores: QueryGetTotalScoresResult;
   getUserAccommodation?: Maybe<UserInHotel>;
@@ -1360,8 +1345,8 @@ export type Query = {
   publishedEvents: Array<Event>;
   registeredEvents: QueryRegisteredEventsResult;
   roundByJudge: QueryRoundByJudgeResult;
-  rounds: QueryRoundsResult;
-  roundsByEvent: QueryRoundsByEventResult;
+  rounds: Array<Round>;
+  roundsByEvent: Array<Round>;
   submissionsByUser: QuerySubmissionsByUserResult;
   teamDetails: QueryTeamDetailsResult;
   teamsByRound: QueryTeamsByRoundConnection;
@@ -1561,26 +1546,10 @@ export type QueryAttemptQuizSuccess = {
   data: Team;
 };
 
-export type QueryCollegesResult = Error | QueryCollegesSuccess;
-
-export type QueryCollegesSuccess = {
-  __typename?: "QueryCollegesSuccess";
-  data: Array<College>;
-};
-
 export type QueryCompletedEventsResult = Error | QueryCompletedEventsSuccess;
 
 export type QueryCompletedEventsSuccess = {
   __typename?: "QueryCompletedEventsSuccess";
-  data: Array<Event>;
-};
-
-export type QueryEventsByBranchRepResult =
-  | Error
-  | QueryEventsByBranchRepSuccess;
-
-export type QueryEventsByBranchRepSuccess = {
-  __typename?: "QueryEventsByBranchRepSuccess";
   data: Array<Event>;
 };
 
@@ -1594,13 +1563,6 @@ export type QueryEventsConnectionEdge = {
   __typename?: "QueryEventsConnectionEdge";
   cursor: Scalars["String"]["output"];
   node: Event;
-};
-
-export type QueryGetAllHotelsResult = Error | QueryGetAllHotelsSuccess;
-
-export type QueryGetAllHotelsSuccess = {
-  __typename?: "QueryGetAllHotelsSuccess";
-  data: Array<Hotel>;
 };
 
 export type QueryGetAllQuizSubmissionsResult =
@@ -1628,20 +1590,6 @@ export type QueryGetAllquestionsSuccess = {
   data: Array<Question>;
 };
 
-export type QueryGetBranchResult = Error | QueryGetBranchSuccess;
-
-export type QueryGetBranchSuccess = {
-  __typename?: "QueryGetBranchSuccess";
-  data: Branch;
-};
-
-export type QueryGetBranchesResult = Error | QueryGetBranchesSuccess;
-
-export type QueryGetBranchesSuccess = {
-  __typename?: "QueryGetBranchesSuccess";
-  data: Array<Branch>;
-};
-
 export type QueryGetCardsResult = Error | QueryGetCardsSuccess;
 
 export type QueryGetCardsSuccess = {
@@ -1663,13 +1611,6 @@ export type QueryGetCommentResult = Error | QueryGetCommentSuccess;
 export type QueryGetCommentSuccess = {
   __typename?: "QueryGetCommentSuccess";
   data: Comments;
-};
-
-export type QueryGetEventStatusResult = Error | QueryGetEventStatusSuccess;
-
-export type QueryGetEventStatusSuccess = {
-  __typename?: "QueryGetEventStatusSuccess";
-  data: Array<EventStatus>;
 };
 
 export type QueryGetLevelXpResult = Error | QueryGetLevelXpSuccess;
@@ -1732,24 +1673,6 @@ export type QueryGetScoreSuccess = {
   data: Scores;
 };
 
-export type QueryGetStoneVisibilitiesResult =
-  | Error
-  | QueryGetStoneVisibilitiesSuccess;
-
-export type QueryGetStoneVisibilitiesSuccess = {
-  __typename?: "QueryGetStoneVisibilitiesSuccess";
-  data: Scalars["String"]["output"];
-};
-
-export type QueryGetSubmissionByUserResult =
-  | Error
-  | QueryGetSubmissionByUserSuccess;
-
-export type QueryGetSubmissionByUserSuccess = {
-  __typename?: "QueryGetSubmissionByUserSuccess";
-  data: Array<AllSubmissions>;
-};
-
 export type QueryGetTotalScoresResult = Error | QueryGetTotalScoresSuccess;
 
 export type QueryGetTotalScoresSuccess = {
@@ -1806,20 +1729,6 @@ export type QueryRoundByJudgeResult = Error | QueryRoundByJudgeSuccess;
 export type QueryRoundByJudgeSuccess = {
   __typename?: "QueryRoundByJudgeSuccess";
   data: Round;
-};
-
-export type QueryRoundsByEventResult = Error | QueryRoundsByEventSuccess;
-
-export type QueryRoundsByEventSuccess = {
-  __typename?: "QueryRoundsByEventSuccess";
-  data: Array<Round>;
-};
-
-export type QueryRoundsResult = Error | QueryRoundsSuccess;
-
-export type QueryRoundsSuccess = {
-  __typename?: "QueryRoundsSuccess";
-  data: Array<Round>;
 };
 
 export type QuerySubmissionsByUserResult =
@@ -3386,12 +3295,7 @@ export type CollegesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CollegesQuery = {
   __typename?: "Query";
-  colleges:
-    | { __typename: "Error"; message: string }
-    | {
-        __typename: "QueryCollegesSuccess";
-        data: Array<{ __typename?: "College"; id: string; name: string }>;
-      };
+  colleges: Array<{ __typename?: "College"; id: string; name: string }>;
 };
 
 export type CompletedEventsQueryVariables = Exact<{ [key: string]: never }>;
@@ -3587,52 +3491,37 @@ export type EventsByBranchRepQueryVariables = Exact<{
 
 export type EventsByBranchRepQuery = {
   __typename?: "Query";
-  eventsByBranchRep:
-    | { __typename: "Error"; message: string }
-    | {
-        __typename: "QueryEventsByBranchRepSuccess";
-        data: Array<{
-          __typename?: "Event";
-          description?: string | null;
-          eventType: EventType;
-          fees: number;
-          id: string;
-          category: EventCategory;
-          image?: string | null;
-          maxTeamSize: number;
-          maxTeams?: number | null;
-          minTeamSize: number;
-          name: string;
-          published: boolean;
-          venue?: string | null;
-          rounds: Array<{
-            __typename?: "Round";
-            completed: boolean;
-            roundNo: number;
-            eventId: string;
-            date?: Date | null;
-            judges: Array<{
-              __typename?: "Judge";
-              user: {
-                __typename?: "User";
-                email: string;
-                name: string;
-                id: string;
-              };
-            }>;
-          }>;
-          organizers: Array<{
-            __typename?: "Organizer";
-            user: {
-              __typename?: "User";
-              email: string;
-              name: string;
-              id: string;
-            };
-          }>;
-          branch: { __typename?: "Branch"; id: string; name: string };
-        }>;
-      };
+  eventsByBranchRep: Array<{
+    __typename?: "Event";
+    description?: string | null;
+    eventType: EventType;
+    fees: number;
+    id: string;
+    category: EventCategory;
+    image?: string | null;
+    maxTeamSize: number;
+    maxTeams?: number | null;
+    minTeamSize: number;
+    name: string;
+    published: boolean;
+    venue?: string | null;
+    rounds: Array<{
+      __typename?: "Round";
+      completed: boolean;
+      roundNo: number;
+      eventId: string;
+      date?: Date | null;
+      judges: Array<{
+        __typename?: "Judge";
+        user: { __typename?: "User"; email: string; name: string; id: string };
+      }>;
+    }>;
+    organizers: Array<{
+      __typename?: "Organizer";
+      user: { __typename?: "User"; email: string; name: string; id: string };
+    }>;
+    branch: { __typename?: "Branch"; id: string; name: string };
+  }>;
 };
 
 export type EventByOrganizerQueryVariables = Exact<{
@@ -3698,20 +3587,15 @@ export type GetAllHotelsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetAllHotelsQuery = {
   __typename?: "Query";
-  getAllHotels:
-    | { __typename: "Error"; message: string }
-    | {
-        __typename: "QueryGetAllHotelsSuccess";
-        data: Array<{
-          __typename?: "Hotel";
-          createdAt?: Date | null;
-          details?: string | null;
-          id: string;
-          name: string;
-          price: number;
-          updatedAt?: Date | null;
-        }>;
-      };
+  getAllHotels: Array<{
+    __typename?: "Hotel";
+    createdAt?: Date | null;
+    details?: string | null;
+    id: string;
+    name: string;
+    price: number;
+    updatedAt?: Date | null;
+  }>;
 };
 
 export type GetAllQuestionsQueryVariables = Exact<{
@@ -3808,30 +3692,25 @@ export type BranchesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type BranchesQuery = {
   __typename?: "Query";
-  getBranches:
-    | { __typename: "Error"; message: string }
-    | {
-        __typename: "QueryGetBranchesSuccess";
-        data: Array<{
-          __typename?: "Branch";
-          id: string;
-          name: string;
-          branchReps: Array<{
-            __typename?: "BranchRep";
-            branchId: string;
-            userId: string;
-            user: {
-              __typename?: "User";
-              email: string;
-              id: string;
-              isVerified: boolean;
-              name: string;
-              phoneNumber?: string | null;
-              role: Role;
-            };
-          }>;
-        }>;
+  getBranches: Array<{
+    __typename?: "Branch";
+    id: string;
+    name: string;
+    branchReps: Array<{
+      __typename?: "BranchRep";
+      branchId: string;
+      userId: string;
+      user: {
+        __typename?: "User";
+        email: string;
+        id: string;
+        isVerified: boolean;
+        name: string;
+        phoneNumber?: string | null;
+        role: Role;
       };
+    }>;
+  }>;
 };
 
 export type GetChampionshipLeaderboardQueryVariables = Exact<{
@@ -3901,16 +3780,11 @@ export type GetEventStatusQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetEventStatusQuery = {
   __typename?: "Query";
-  getEventStatus:
-    | { __typename: "Error"; message: string }
-    | {
-        __typename: "QueryGetEventStatusSuccess";
-        data: Array<{
-          __typename?: "EventStatus";
-          eventName: string;
-          status: string;
-        }>;
-      };
+  getEventStatus: Array<{
+    __typename?: "EventStatus";
+    eventName: string;
+    status: string;
+  }>;
 };
 
 export type GetXpLeaderboardQueryVariables = Exact<{ [key: string]: never }>;
@@ -3951,6 +3825,15 @@ export type GetProniteRegistrationsQuery = {
     day1Count: number;
     day2Count: number;
   };
+};
+
+export type GetRevenueQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetRevenueQuery = {
+  __typename?: "Query";
+  getRevenue:
+    | { __typename: "Error"; message: string }
+    | { __typename: "QueryGetRevenueSuccess"; data: number };
 };
 
 export type GetQuizByEventRoundQueryVariables = Exact<{
@@ -4056,15 +3939,6 @@ export type GetQuizScoresQuery = {
       };
 };
 
-export type GetRevenueQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetRevenueQuery = {
-  __typename?: "Query";
-  getRevenue:
-    | { __typename: "Error"; message: string }
-    | { __typename: "QueryGetRevenueSuccess"; data: number };
-};
-
 export type GetScoreQueryVariables = Exact<{
   criteriaId: Scalars["ID"]["input"];
   roundNo: Scalars["Int"]["input"];
@@ -4112,6 +3986,19 @@ export type GetScoreSheetJuryQuery = {
       };
 };
 
+export type GetTotalRegistrationsQueryVariables = Exact<{
+  [key: string]: never;
+}>;
+
+export type GetTotalRegistrationsQuery = {
+  __typename?: "Query";
+  getTotalRegistrations: {
+    __typename?: "EventRegistrationsCount";
+    externalRegistrations: number;
+    internalRegistrations: number;
+  };
+};
+
 export type GetTeamDetailsQueryVariables = Exact<{
   eventId: Scalars["ID"]["input"];
 }>;
@@ -4131,19 +4018,6 @@ export type GetTeamDetailsQuery = {
           name: string;
         };
       };
-};
-
-export type GetTotalRegistrationsQueryVariables = Exact<{
-  [key: string]: never;
-}>;
-
-export type GetTotalRegistrationsQuery = {
-  __typename?: "Query";
-  getTotalRegistrations: {
-    __typename?: "EventRegistrationsCount";
-    externalRegistrations: number;
-    internalRegistrations: number;
-  };
 };
 
 export type GetTotalScoresQueryVariables = Exact<{
@@ -4368,18 +4242,13 @@ export type RoundsByEventQueryVariables = Exact<{
 
 export type RoundsByEventQuery = {
   __typename?: "Query";
-  roundsByEvent:
-    | { __typename: "Error"; message: string }
-    | {
-        __typename: "QueryRoundsByEventSuccess";
-        data: Array<{
-          __typename?: "Round";
-          completed: boolean;
-          date?: Date | null;
-          eventId: string;
-          roundNo: number;
-        }>;
-      };
+  roundsByEvent: Array<{
+    __typename?: "Round";
+    completed: boolean;
+    date?: Date | null;
+    eventId: string;
+    roundNo: number;
+  }>;
 };
 
 export type SearchUsersQueryVariables = Exact<{
@@ -13516,59 +13385,8 @@ export const CollegesDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Error" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "QueryCollegesSuccess" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "data" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "name" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
               ],
             },
           },
@@ -14466,208 +14284,50 @@ export const EventsByBranchRepDocument = {
               kind: "SelectionSet",
               selections: [
                 {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Error" },
-                  },
+                  kind: "Field",
+                  name: { kind: "Name", value: "rounds" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
+                        name: { kind: "Name", value: "completed" },
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: {
-                      kind: "Name",
-                      value: "QueryEventsByBranchRepSuccess",
-                    },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
+                        name: { kind: "Name", value: "roundNo" },
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "data" },
+                        name: { kind: "Name", value: "eventId" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "date" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "judges" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "rounds" },
+                              name: { kind: "Name", value: "user" },
                               selectionSet: {
                                 kind: "SelectionSet",
                                 selections: [
                                   {
                                     kind: "Field",
-                                    name: { kind: "Name", value: "completed" },
-                                  },
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "roundNo" },
-                                  },
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "eventId" },
-                                  },
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "date" },
-                                  },
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "judges" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "user" },
-                                          selectionSet: {
-                                            kind: "SelectionSet",
-                                            selections: [
-                                              {
-                                                kind: "Field",
-                                                name: {
-                                                  kind: "Name",
-                                                  value: "email",
-                                                },
-                                              },
-                                              {
-                                                kind: "Field",
-                                                name: {
-                                                  kind: "Name",
-                                                  value: "name",
-                                                },
-                                              },
-                                              {
-                                                kind: "Field",
-                                                name: {
-                                                  kind: "Name",
-                                                  value: "id",
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "description" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "eventType" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "fees" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "category" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "image" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "maxTeamSize" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "maxTeams" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "minTeamSize" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "name" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "organizers" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "user" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        {
-                                          kind: "Field",
-                                          name: {
-                                            kind: "Name",
-                                            value: "email",
-                                          },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "name" },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "id" },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "branch" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "id" },
+                                    name: { kind: "Name", value: "email" },
                                   },
                                   {
                                     kind: "Field",
                                     name: { kind: "Name", value: "name" },
                                   },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "id" },
+                                  },
                                 ],
                               },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "published" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "venue" },
                             },
                           ],
                         },
@@ -14675,6 +14335,59 @@ export const EventsByBranchRepDocument = {
                     ],
                   },
                 },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                { kind: "Field", name: { kind: "Name", value: "eventType" } },
+                { kind: "Field", name: { kind: "Name", value: "fees" } },
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "category" } },
+                { kind: "Field", name: { kind: "Name", value: "image" } },
+                { kind: "Field", name: { kind: "Name", value: "maxTeamSize" } },
+                { kind: "Field", name: { kind: "Name", value: "maxTeams" } },
+                { kind: "Field", name: { kind: "Name", value: "minTeamSize" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "organizers" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "user" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "email" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "branch" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+                { kind: "Field", name: { kind: "Name", value: "published" } },
+                { kind: "Field", name: { kind: "Name", value: "venue" } },
               ],
             },
           },
@@ -14940,75 +14653,12 @@ export const GetAllHotelsDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Error" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "QueryGetAllHotelsSuccess" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "data" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "createdAt" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "details" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "id" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "name" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "price" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "updatedAt" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
+                { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+                { kind: "Field", name: { kind: "Name", value: "details" } },
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
               ],
             },
           },
@@ -15479,48 +15129,39 @@ export const BranchesDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "name" } },
                 {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Error" },
-                  },
+                  kind: "Field",
+                  name: { kind: "Name", value: "branchReps" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
+                        name: { kind: "Name", value: "branchId" },
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "QueryGetBranchesSuccess" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
+                        name: { kind: "Name", value: "userId" },
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "data" },
+                        name: { kind: "Name", value: "user" },
                         selectionSet: {
                           kind: "SelectionSet",
                           selections: [
                             {
                               kind: "Field",
+                              name: { kind: "Name", value: "email" },
+                            },
+                            {
+                              kind: "Field",
                               name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "isVerified" },
                             },
                             {
                               kind: "Field",
@@ -15528,62 +15169,11 @@ export const BranchesDocument = {
                             },
                             {
                               kind: "Field",
-                              name: { kind: "Name", value: "branchReps" },
-                              selectionSet: {
-                                kind: "SelectionSet",
-                                selections: [
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "branchId" },
-                                  },
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "userId" },
-                                  },
-                                  {
-                                    kind: "Field",
-                                    name: { kind: "Name", value: "user" },
-                                    selectionSet: {
-                                      kind: "SelectionSet",
-                                      selections: [
-                                        {
-                                          kind: "Field",
-                                          name: {
-                                            kind: "Name",
-                                            value: "email",
-                                          },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "id" },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: {
-                                            kind: "Name",
-                                            value: "isVerified",
-                                          },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "name" },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: {
-                                            kind: "Name",
-                                            value: "phoneNumber",
-                                          },
-                                        },
-                                        {
-                                          kind: "Field",
-                                          name: { kind: "Name", value: "role" },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
+                              name: { kind: "Name", value: "phoneNumber" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "role" },
                             },
                           ],
                         },
@@ -15931,59 +15521,8 @@ export const GetEventStatusDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Error" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "QueryGetEventStatusSuccess" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "data" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "eventName" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "status" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
+                { kind: "Field", name: { kind: "Name", value: "eventName" } },
+                { kind: "Field", name: { kind: "Name", value: "status" } },
               ],
             },
           },
@@ -16161,6 +15700,67 @@ export const GetProniteRegistrationsDocument = {
   GetProniteRegistrationsQuery,
   GetProniteRegistrationsQueryVariables
 >;
+export const GetRevenueDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetRevenue" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getRevenue" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "InlineFragment",
+                  typeCondition: {
+                    kind: "NamedType",
+                    name: { kind: "Name", value: "QueryGetRevenueSuccess" },
+                  },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "data" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "InlineFragment",
+                  typeCondition: {
+                    kind: "NamedType",
+                    name: { kind: "Name", value: "Error" },
+                  },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "__typename" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "message" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetRevenueQuery, GetRevenueQueryVariables>;
 export const GetQuizByEventRoundDocument = {
   kind: "Document",
   definitions: [
@@ -16695,67 +16295,6 @@ export const GetQuizScoresDocument = {
     },
   ],
 } as unknown as DocumentNode<GetQuizScoresQuery, GetQuizScoresQueryVariables>;
-export const GetRevenueDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "GetRevenue" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "getRevenue" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "QueryGetRevenueSuccess" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      { kind: "Field", name: { kind: "Name", value: "data" } },
-                    ],
-                  },
-                },
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Error" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<GetRevenueQuery, GetRevenueQueryVariables>;
 export const GetScoreDocument = {
   kind: "Document",
   definitions: [
@@ -17066,6 +16605,41 @@ export const GetScoreSheetJuryDocument = {
   GetScoreSheetJuryQuery,
   GetScoreSheetJuryQueryVariables
 >;
+export const GetTotalRegistrationsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetTotalRegistrations" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getTotalRegistrations" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "externalRegistrations" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "internalRegistrations" },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetTotalRegistrationsQuery,
+  GetTotalRegistrationsQueryVariables
+>;
 export const GetTeamDetailsDocument = {
   kind: "Document",
   definitions: [
@@ -17178,41 +16752,6 @@ export const GetTeamDetailsDocument = {
     },
   ],
 } as unknown as DocumentNode<GetTeamDetailsQuery, GetTeamDetailsQueryVariables>;
-export const GetTotalRegistrationsDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "GetTotalRegistrations" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "getTotalRegistrations" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "externalRegistrations" },
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "internalRegistrations" },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  GetTotalRegistrationsQuery,
-  GetTotalRegistrationsQueryVariables
->;
 export const GetTotalScoresDocument = {
   kind: "Document",
   definitions: [
@@ -18282,67 +17821,10 @@ export const RoundsByEventDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Error" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "message" },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "QueryRoundsByEventSuccess" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "__typename" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "data" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "completed" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "date" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "eventId" },
-                            },
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "roundNo" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
+                { kind: "Field", name: { kind: "Name", value: "completed" } },
+                { kind: "Field", name: { kind: "Name", value: "date" } },
+                { kind: "Field", name: { kind: "Name", value: "eventId" } },
+                { kind: "Field", name: { kind: "Name", value: "roundNo" } },
               ],
             },
           },

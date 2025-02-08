@@ -1,15 +1,6 @@
 query GetEventStatus {
   getEventStatus {
-    ... on Error {
-      __typename
-      message
-    }
-    ... on QueryGetEventStatusSuccess {
-      __typename
-      data {
-        eventName
-        status
-      }
-    }
+    eventName
+    status
   }
 }

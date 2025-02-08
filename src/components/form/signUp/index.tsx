@@ -66,15 +66,13 @@ const SignUpForm: FunctionComponent<SignUpFormProps> = ({
   if (emailVerificationError) setGotDialogBox(true);
 
   const sortColleges = () => {
-    if (collegeData?.colleges.__typename !== "QueryCollegesSuccess") return [];
-
-    const nmamit = collegeData.colleges.data.find(
+    const nmamit = collegeData?.colleges.find(
       (college) => college.name === "N.M.A.M. Institute of Technology",
     );
-    const other = collegeData.colleges.data.find(
+    const other = collegeData?.colleges.find(
       (college) => college.name === "Other",
     );
-    const sortedColleges = [...(collegeData.colleges.data ?? [])]
+    const sortedColleges = [...(collegeData?.colleges ?? [])]
       .filter((college) => {
         return (
           college.name !== "N.M.A.M. Institute of Technology" &&

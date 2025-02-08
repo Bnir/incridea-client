@@ -4,23 +4,14 @@ import { IoAdd } from "react-icons/io5";
 
 import Button from "~/components/button";
 import Modal from "~/components/modal";
-import {
-  type BranchesQueryVariables,
-  type BranchesQuery,
-} from "~/generated/generated";
+import { type BranchesQuery } from "~/generated/generated";
 
 import AddBranchRepModal from "./addBranchRepModal";
-import { type QueryResult } from "@apollo/client";
 
 const AddBranchRep: FC<{
   branchId: string;
   branchName: string;
-  branchReps: Extract<
-    NonNullable<
-      QueryResult<BranchesQuery, BranchesQueryVariables>["data"]
-    >["getBranches"],
-    { __typename: "QueryGetBranchesSuccess" }
-  >["data"][number]["branchReps"];
+  branchReps: BranchesQuery["getBranches"][0]["branchReps"];
 }> = ({ branchId, branchName, branchReps }) => {
   const [showModal, setShowModal] = useState(false);
 

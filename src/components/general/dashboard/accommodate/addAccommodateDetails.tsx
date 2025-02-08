@@ -28,11 +28,8 @@ const AddAccommodateDetails: FC<{
   const { data: allHotels } = useQuery(GetAllHotelsDocument);
 
   useEffect(() => {
-    if (
-      allHotels?.getAllHotels.__typename === "QueryGetAllHotelsSuccess" &&
-      allHotels?.getAllHotels.data[0]?.id
-    ) {
-      setHotelDetails(allHotels.getAllHotels.data[0].id);
+    if (allHotels?.getAllHotels?.[0]?.id) {
+      setHotelDetails(allHotels.getAllHotels[0].id);
     } else {
       setHotelDetails(""); // Fallback if no valid id exists
     }
@@ -91,13 +88,11 @@ const AddAccommodateDetails: FC<{
               id="hotelName"
               className="block w-11/12 rounded-lg border border-gray-600 bg-gray-600 p-2.5 text-sm text-white placeholder-gray-400 ring-gray-500 focus:outline-none focus:ring-2"
             >
-              {allHotels?.getAllHotels.__typename ===
-                "QueryGetAllHotelsSuccess" &&
-                allHotels?.getAllHotels.data.map((hot) => (
-                  <option key={hot.id} value={hot.id}>
-                    {hot.name}
-                  </option>
-                ))}
+              {allHotels?.getAllHotels.map((hot) => (
+                <option key={hot.id} value={hot.id}>
+                  {hot.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex w-full flex-col items-start">
